@@ -7,6 +7,9 @@ export default {
   theme: {
     extend:
     {
+      container: {
+        center: true,
+      },
       colors: { black: '#020403' },
       fontFamily: {
         'poppins': ['Poppins']

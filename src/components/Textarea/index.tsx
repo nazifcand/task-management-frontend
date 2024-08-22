@@ -1,11 +1,11 @@
-import { FC, InputHTMLAttributes } from 'react';
+import { FC, TextareaHTMLAttributes } from 'react';
 import classNames from 'classnames/bind';
 
-interface IInput extends InputHTMLAttributes<HTMLInputElement> {
+interface ITextarea extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   placeholder?: string;
   errorMessage?: string | false;
-  inputSize?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large';
 }
 
 const cn = classNames.bind({
@@ -14,28 +14,31 @@ const cn = classNames.bind({
   large: 'h-[45px] text-base',
 });
 
-const Input: FC<IInput> = ({
+const Textarea: FC<ITextarea> = ({
   label,
   errorMessage,
   placeholder,
-  inputSize = 'medium',
+  size = 'medium',
   ...args
 }) => {
   return (
     <div className="w-full flex flex-col gap-1">
-      {label && <span className="text-sm font-medium">{label}</span>}
+      {label && (
+        <span className="text-slate-600 text-xs font-medium">{label}</span>
+      )}
 
-      <input
+      <textarea
         {...args}
         placeholder={placeholder || label}
         className={cn(
-          'w-full h-[40px]',
+          'w-full min-h-[100px]',
           'border border-slate-200',
           'font-poppins text-sm',
           'bg-white outline-none',
-          'px-3 rounded focus:border-sky-400',
+          'p-3 focus:border-sky-400',
+          'resize-none',
           { '!border-red-300 bg-red-50/50': errorMessage },
-          inputSize
+          size
         )}
       />
 
@@ -46,4 +49,4 @@ const Input: FC<IInput> = ({
   );
 };
 
-export default Input;
+export default Textarea;

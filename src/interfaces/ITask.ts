@@ -4,6 +4,7 @@ import { ITag } from './ITag';
 import { IUser } from './IUser';
 
 export interface ITask {
+  id: number;
   title: string;
   description: string;
   startDate: string;

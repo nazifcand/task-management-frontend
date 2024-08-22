@@ -3,6 +3,7 @@ import { ITask } from './ITask';
 import { IUserGroup } from './IUserGroup';
 
 export interface IUser {
+  id: number;
   username: string;
   email: string;
   phone: string;

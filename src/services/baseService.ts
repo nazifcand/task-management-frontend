@@ -18,4 +18,16 @@ axios.interceptors.request.use(
   }
 );
 
+axios.interceptors.response.use(null, async (error) => {
+  const { response } = error;
+
+  if ([401].includes(response?.status)) {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+    return;
+  }
+
+  return Promise.reject(error);
+});
+
 export default axios;

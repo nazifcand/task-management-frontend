@@ -1,16 +1,22 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 import classNames from 'classnames/bind';
-import LoadingIcon from '../icons/LoadingIcon';
+import LoadingIcon from '../../icons/LoadingIcon';
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'xSmall' | 'small' | 'medium' | 'large';
+  color?: 'sky' | 'red' | 'green' | 'orange';
   loading?: boolean;
 }
 
 const cn = classNames.bind({
+  xSmall: 'h-[26px] px-3 text-xs',
   small: 'h-[35px] px-4 text-xs',
   medium: 'h-[40px] px-6 text-sm',
   large: 'h-[45px] px-8 text-base',
+  sky: 'bg-sky-400 text-white hover:bg-sky-500',
+  red: 'bg-red-400 text-white hover:bg-red-500',
+  green: 'bg-green-400 text-white hover:bg-green-500',
+  orange: 'bg-orange-400 text-white hover:bg-orange-500',
 });
 
 const Button: FC<IButton> = ({
@@ -18,6 +24,7 @@ const Button: FC<IButton> = ({
   size = 'medium',
   className,
   type = 'button',
+  color = 'sky',
   loading = false,
   disabled = false,
   ...args
@@ -29,11 +36,10 @@ const Button: FC<IButton> = ({
       className={cn(
         'text-center',
         'flex items-center justify-center gap-2',
-        'bg-slate-500 text-slate-100 hover:bg-slate-600',
         'font-medium',
-        'rounded-md',
         { 'opacity-75 cursor-not-allowed': loading || disabled },
         size,
+        color,
         className
       )}
       {...args}

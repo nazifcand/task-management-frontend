@@ -45,7 +45,7 @@ const RegisterPage = () => {
   const { handleSubmit, getFieldProps, touched, errors, isValid } = formik;
 
   return (
-    <div className="w-[450px] bg-white p-8 box-border rounded-lg border border-slate-200 shadow-md flex flex-col gap-4">
+    <div className="w-[450px] bg-white p-8 box-border border border-slate-200 shadow-md flex flex-col gap-4">
       <h1 className="text-3xl font-semibold">Kayıt Ol</h1>
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
         <Input
