@@ -5,6 +5,7 @@ import TagList from '../TagLists';
 import AvatarStack from '../AvatarStack';
 import Button from '../Button';
 import { useNavigate, useParams } from 'react-router-dom';
+import { formatDate } from '../../utils/formatDate';
 
 interface ITableView {
   tasks: ITask[] | [];
@@ -46,11 +47,11 @@ const TableView: FC<ITableView> = ({ tasks }) => {
         },
         {
           title: 'Start Date',
-          value: (row: ITask) => row.startDate,
+          value: (row: ITask) => formatDate(row.startDate),
         },
         {
           title: 'End Date',
-          value: (row: ITask) => row.endDate,
+          value: (row: ITask) => formatDate(row.endDate),
         },
         {
           title: 'Users',
