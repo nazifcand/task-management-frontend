@@ -5,7 +5,7 @@ import { IProject } from '../../interfaces/IProject';
 import { IOrganization } from '../../interfaces/IOrganization';
 import { fetchProjects } from '../../services/projectService';
 
-const Projects = () => {
+const OrganizationProjects = () => {
   const { organizationSlug } = useParams<{ organizationSlug: string }>();
 
   const [organization, setOrganization] = useState<IOrganization | undefined>(
@@ -43,11 +43,7 @@ const Projects = () => {
 
   return (
     <>
-      <div className="container">
-        <h1 className="text-3xl font-bold">{organization?.title} Projects</h1>
-      </div>
-
-      <div className="container grid grid-cols-5 gap-4">
+      <div className="container grid grid-cols-4 gap-4">
         {projects.map((project: IProject, index) => (
           <Link
             className="flex flex-col gap-2 p-4 bg-white border border-slate-200"
@@ -69,4 +65,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default OrganizationProjects;

@@ -7,10 +7,12 @@ import AuthLayout from './layouts/AuthLayout';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Organizations from './pages/organizations/organizations';
-import Projects from './pages/projects/projects';
+import OrganizationProjects from './pages/organizationDetail/OrganizationProjects';
 import Tasks from './pages/tasks/tasks';
 import CreateTask from './pages/tasks/createTask';
 import EditTask from './pages/tasks/editTask';
+import OrganizationDetail from './pages/organizationDetail/organizationDetail';
+import OrganizationUsers from './pages/organizationDetail/organizationUsers';
 
 const router = createBrowserRouter([
   {
@@ -40,8 +42,18 @@ const router = createBrowserRouter([
       },
 
       {
-        path: '/organizations/:organizationSlug/projects',
-        element: <Projects />,
+        path: '/organizations/:organizationSlug',
+        element: <OrganizationDetail />,
+        children: [
+          {
+            path: '/organizations/:organizationSlug/projects',
+            element: <OrganizationProjects />,
+          },
+          {
+            path: '/organizations/:organizationSlug/users',
+            element: <OrganizationUsers />,
+          },
+        ],
       },
 
       {

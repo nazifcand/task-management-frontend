@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import Breadcrumb from '../Breadcrumb';
 
 interface IPageHeader {
-  title: string;
+  title?: string;
   summary?: string;
   breadcrumbs?: any[];
   children?: ReactNode;
