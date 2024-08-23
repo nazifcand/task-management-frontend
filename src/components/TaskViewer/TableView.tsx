@@ -22,6 +22,10 @@ const TableView: FC<ITableView> = ({ tasks }) => {
     <Table
       columns={[
         {
+          title: '#ID',
+          value: (row: ITask) => `#${row.id}`,
+        },
+        {
           title: 'Title',
           value: (row: ITask) => (
             <p className="max-w-[250px] truncate">{row.title}</p>
