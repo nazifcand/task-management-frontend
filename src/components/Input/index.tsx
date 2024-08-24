@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
+  className?: string;
   errorMessage?: string | false;
   inputSize?: 'small' | 'medium' | 'large';
 }
@@ -19,6 +20,7 @@ const Input: FC<IInput> = ({
   errorMessage,
   placeholder,
   inputSize = 'medium',
+  className,
   ...args
 }) => {
   return (
@@ -37,7 +39,8 @@ const Input: FC<IInput> = ({
           'bg-white outline-none',
           'px-3 focus:border-sky-400',
           { '!border-red-300 bg-red-50/50': errorMessage },
-          inputSize
+          inputSize,
+          className
         )}
       />
 

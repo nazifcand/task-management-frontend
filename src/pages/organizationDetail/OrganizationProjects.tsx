@@ -47,7 +47,7 @@ const OrganizationProjects = () => {
         {projects.map((project: IProject, index) => (
           <Link
             className="flex flex-col gap-2 p-4 bg-white border border-slate-200"
-            to={`/organizations/${organizationSlug}/projects/${project.slug}/tasks`}
+            to={`/organizations/${organizationSlug}/projects/${project.slug}`}
             key={index}
           >
             <div className="w-full aspect-video">

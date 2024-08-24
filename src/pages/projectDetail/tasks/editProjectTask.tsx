@@ -1,29 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IProject } from '../../interfaces/IProject';
+import { IProject } from '../../../interfaces/IProject';
 import {
   fetchProjectBySlug,
   fetchProjectStatusesBySlug,
   fetchProjectTagsBySlug,
-} from '../../services/projectService';
-import { IOrganization } from '../../interfaces/IOrganization';
+} from '../../../services/projectService';
+import { IOrganization } from '../../../interfaces/IOrganization';
 import {
   fetchOrganizationBySlug,
   fetchOrganizationUsersBySlug,
-} from '../../services/organizationService';
-import Input from '../../components/Input';
-import Textarea from '../../components/Textarea';
-import MultiSelect from '../../components/Multiselect';
+} from '../../../services/organizationService';
+import Input from '../../../components/Input';
+import Textarea from '../../../components/Textarea';
+import MultiSelect from '../../../components/Multiselect';
 import { useFormik } from 'formik';
-import Button from '../../components/Button';
-import { ITag } from '../../interfaces/ITag';
-import { IUser } from '../../interfaces/IUser';
-import { IStatus } from '../../interfaces/IStatus';
-import Select from '../../components/Select';
-import { fetchTaskById, updateTask } from '../../services/taskService';
-import PageHeader from '../../components/PageHeader';
+import Button from '../../../components/Button';
+import { ITag } from '../../../interfaces/ITag';
+import { IUser } from '../../../interfaces/IUser';
+import { IStatus } from '../../../interfaces/IStatus';
+import Select from '../../../components/Select';
+import { fetchTaskById, updateTask } from '../../../services/taskService';
 
-const EditTask = () => {
+const EditProjectTask = () => {
   const { projectSlug, organizationSlug, taskId } = useParams<{
     organizationSlug: string;
     projectSlug: string;
@@ -140,86 +139,56 @@ const EditTask = () => {
   }, [organizationSlug, projectSlug, setFieldValue]);
 
   return (
-    <>
-      <PageHeader
-        title="Edit Task"
-        breadcrumbs={[
-          {
-            title: 'Organizations',
-            to: '/organizations',
-          },
-          {
-            title: (
-              <span>
-                <strong className="font-medium">{organization?.title}</strong>{' '}
-                Projects
-              </span>
-            ),
-            to: `/organizations/${organizationSlug}/projects`,
-          },
-          {
-            title: (
-              <span>
-                <strong className="font-medium">{project?.title}</strong> Tasks
-              </span>
-            ),
-            to: `/organizations/${organizationSlug}/projects/${projectSlug}/tasks`,
-          },
-          { title: 'Edit Task', to: '#' },
-        ]}
-      />
+    <div className="container w-full flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-[540px] w-full flex flex-col gap-4"
+      >
+        <Input label="Title" {...getFieldProps('title')} />
+        <MultiSelect
+          label="Users"
+          selecteds={values.users}
+          options={users}
+          labelField="username"
+          onChange={(selecteds) => setFieldValue('users', selecteds)}
+        />
+        <MultiSelect
+          label="Tags"
+          selecteds={values.tags}
+          options={tags}
+          onChange={(selecteds) => setFieldValue('tags', selecteds)}
+        />
+        <Textarea
+          label="Description"
+          spellCheck={false}
+          {...getFieldProps('description')}
+        />
+        <Select
+          label="Status"
+          options={statuses}
+          value={values.statusId}
+          onChange={(option: IStatus) => setFieldValue('statusId', option.id)}
+        />
 
-      <div className="container w-full flex flex-col gap-4">
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-[540px] w-full flex flex-col gap-4"
-        >
-          <Input label="Title" {...getFieldProps('title')} />
-          <MultiSelect
-            label="Users"
-            selecteds={values.users}
-            options={users}
-            labelField="username"
-            onChange={(selecteds) => setFieldValue('users', selecteds)}
+        <div className="w-full flex items-center gap-4">
+          <Input
+            type="datetime-local"
+            label="Start Date"
+            {...getFieldProps('startDate')}
           />
-          <MultiSelect
-            label="Tags"
-            selecteds={values.tags}
-            options={tags}
-            onChange={(selecteds) => setFieldValue('tags', selecteds)}
+          <Input
+            type="datetime-local"
+            label="End Date"
+            {...getFieldProps('endDate')}
           />
-          <Textarea
-            label="Description"
-            spellCheck={false}
-            {...getFieldProps('description')}
-          />
-          <Select
-            label="Status"
-            options={statuses}
-            value={values.statusId}
-            onChange={(option: IStatus) => setFieldValue('statusId', option.id)}
-          />
+        </div>
 
-          <div className="w-full flex items-center gap-4">
-            <Input
-              type="datetime-local"
-              label="Start Date"
-              {...getFieldProps('startDate')}
-            />
-            <Input
-              type="datetime-local"
-              label="End Date"
-              {...getFieldProps('endDate')}
-            />
-          </div>
-
-          <Button type="submit" className="mr-auto">
-            Save
-          </Button>
-        </form>
-      </div>
-    </>
+        <Button type="submit" className="mr-auto">
+          Save
+        </Button>
+      </form>
+    </div>
   );
 };
 
-export default EditTask;
+export default EditProjectTask;

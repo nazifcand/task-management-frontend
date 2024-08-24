@@ -1,52 +1,57 @@
 import { Link, useLocation, useOutlet, useParams } from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
 import { useEffect, useState } from 'react';
-import { IOrganization } from '../../interfaces/IOrganization';
-import { fetchOrganizationBySlug } from '../../services/organizationService';
 import classNames from 'classnames';
+import { fetchProjectBySlug } from '../../services/projectService';
+import { IProject } from '../../interfaces/IProject';
 
-const OrganizationDetail = () => {
+const ProjectDetail = () => {
   const outlet = useOutlet();
   const localtion = useLocation();
-  const { organizationSlug } = useParams<{
+  const { organizationSlug, projectSlug } = useParams<{
     organizationSlug: string;
+    projectSlug: string;
   }>();
 
-  const [organization, setOrganization] = useState<IOrganization | undefined>();
+  const [project, setProject] = useState<IProject | undefined>();
 
   const SUB_PAGES = [
     {
       title: 'About',
-      to: `/organizations/${organizationSlug}`,
+      to: `/organizations/${organizationSlug}/projects/${projectSlug}`,
     },
     {
-      title: 'Projects',
-      to: `/organizations/${organizationSlug}/projects`,
+      title: 'Tasks',
+      to: `/organizations/${organizationSlug}/projects/${projectSlug}/tasks`,
     },
     {
-      title: 'Users',
-      to: `/organizations/${organizationSlug}/users`,
+      title: 'Tags',
+      to: `/organizations/${organizationSlug}/projects/${projectSlug}/tags`,
+    },
+    {
+      title: 'Statuses',
+      to: `/organizations/${organizationSlug}/projects/${projectSlug}/statuses`,
     },
   ];
 
   useEffect(() => {
-    if (!organizationSlug) return;
+    if (!projectSlug) return;
 
     (async () => {
-      const [err, data] = await fetchOrganizationBySlug(organizationSlug);
+      const [err, data] = await fetchProjectBySlug(projectSlug);
 
       if (err) {
         // TODO: show alert modal or toast
         return alert('error');
       }
 
-      setOrganization(data);
+      setProject(data);
     })();
-  }, [organizationSlug]);
+  }, [projectSlug]);
 
   return (
     <>
-      <PageHeader title={organization?.title} />
+      <PageHeader title={project?.title} />
 
       <div className="container flex gap-10">
         <div className="w-[300px] min-w-[300px] bg-white border border-slate-200 box-border p-4 flex flex-col gap-2 h-min">
@@ -73,11 +78,11 @@ const OrganizationDetail = () => {
         </div>
 
         <div className="flex-1">
-          {!outlet ? <p>{organization?.description}</p> : outlet}
+          {!outlet ? <p>{project?.description}</p> : outlet}
         </div>
       </div>
     </>
   );
 };
 
-export default OrganizationDetail;
+export default ProjectDetail;
