@@ -4,6 +4,7 @@ import { ITask } from './ITask';
 import { IUser } from './IUser';
 
 export interface IProject {
+  id: number;
   title: string;
   slug: string;
   description: string;

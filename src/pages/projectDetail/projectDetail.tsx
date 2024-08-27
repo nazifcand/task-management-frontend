@@ -1,11 +1,22 @@
-import { Link, useLocation, useOutlet, useParams } from 'react-router-dom';
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useOutlet,
+  useParams,
+} from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { fetchProjectBySlug } from '../../services/projectService';
+import {
+  deleteProject,
+  fetchProjectBySlug,
+} from '../../services/projectService';
 import { IProject } from '../../interfaces/IProject';
+import Button from '../../components/Button';
 
 const ProjectDetail = () => {
+  const navigate = useNavigate();
   const outlet = useOutlet();
   const localtion = useLocation();
   const { organizationSlug, projectSlug } = useParams<{
@@ -49,6 +60,17 @@ const ProjectDetail = () => {
     })();
   }, [projectSlug]);
 
+  const handleDeleteProject = async () => {
+    if (!project) return;
+    const [err] = await deleteProject(project.id);
+
+    if (err) {
+      // TODO: show alert modal or toast
+      return alert('error');
+    }
+    navigate(`/organizations/${organizationSlug}`);
+  };
+
   return (
     <>
       <PageHeader title={project?.title} />
@@ -77,8 +99,17 @@ const ProjectDetail = () => {
           ))}
         </div>
 
-        <div className="flex-1">
-          {!outlet ? <p>{project?.description}</p> : outlet}
+        <div className="flex-1 flex flex-col gap-4 items-start">
+          {!outlet ? (
+            <>
+              <p>{project?.description}</p>
+              <Button color="red" size="xSmall" onClick={handleDeleteProject}>
+                DELETE
+              </Button>
+            </>
+          ) : (
+            outlet
+          )}
         </div>
       </div>
     </>

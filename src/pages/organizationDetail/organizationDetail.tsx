@@ -1,11 +1,22 @@
-import { Link, useLocation, useOutlet, useParams } from 'react-router-dom';
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useOutlet,
+  useParams,
+} from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
 import { useEffect, useState } from 'react';
 import { IOrganization } from '../../interfaces/IOrganization';
-import { fetchOrganizationBySlug } from '../../services/organizationService';
+import {
+  deleteOrganization,
+  fetchOrganizationBySlug,
+} from '../../services/organizationService';
 import classNames from 'classnames';
+import Button from '../../components/Button';
 
 const OrganizationDetail = () => {
+  const navigate = useNavigate();
   const outlet = useOutlet();
   const localtion = useLocation();
   const { organizationSlug } = useParams<{
@@ -44,6 +55,17 @@ const OrganizationDetail = () => {
     })();
   }, [organizationSlug]);
 
+  const handleDeleteOrganization = async () => {
+    if (!organization) return;
+    const [err] = await deleteOrganization(organization.id);
+
+    if (err) {
+      // TODO: show alert modal or toast
+      return alert('error');
+    }
+    navigate(`/organizations`);
+  };
+
   return (
     <>
       <PageHeader title={organization?.title} />
@@ -72,8 +94,21 @@ const OrganizationDetail = () => {
           ))}
         </div>
 
-        <div className="flex-1">
-          {!outlet ? <p>{organization?.description}</p> : outlet}
+        <div className="flex-1 flex flex-col gap-4 items-start">
+          {!outlet ? (
+            <>
+              <p>{organization?.description}</p>
+              <Button
+                color="red"
+                size="xSmall"
+                onClick={handleDeleteOrganization}
+              >
+                DELETE
+              </Button>
+            </>
+          ) : (
+            outlet
+          )}
         </div>
       </div>
     </>
