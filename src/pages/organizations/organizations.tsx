@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { IOrganization } from '../../interfaces/IOrganization';
 import { fetchOrganizations } from '../../services/organizationService';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from '../../components/Button';
 
 const Organizations = () => {
+  const navigate = useNavigate();
+
   const [organizations, setOrganizations] = useState<IOrganization[]>([]);
 
   useEffect(() => {
@@ -21,6 +24,15 @@ const Organizations = () => {
 
   return (
     <>
+      <div className="container">
+        <Button
+          className="ml-auto"
+          onClick={() => navigate(`/organizations/create`)}
+        >
+          Create
+        </Button>
+      </div>
+
       <div className="container grid grid-cols-5 gap-4">
         {organizations.map((org: IOrganization, index) => (
           <Link
@@ -34,6 +46,19 @@ const Organizations = () => {
 
             <h3 className="font-bold text-xl">{org.title}</h3>
             <p className="text-sm text-slate-500 italic">{org.description}</p>
+
+            <Button
+              color="orange"
+              size="xSmall"
+              className="mr-auto"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                navigate(`/organizations/${org.slug}/edit`);
+              }}
+            >
+              Edit
+            </Button>
           </Link>
         ))}
       </div>

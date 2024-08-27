@@ -5,7 +5,6 @@ import { ITask } from '../../../interfaces/ITask';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchTasks } from '../../../services/taskService';
 import TaskViewer from '../../../components/TaskViewer';
-import PageHeader from '../../../components/PageHeader';
 import { fetchOrganizationBySlug } from '../../../services/organizationService';
 import { IOrganization } from '../../../interfaces/IOrganization';
 import Button from '../../../components/Button';

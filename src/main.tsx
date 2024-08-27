@@ -20,6 +20,10 @@ import CreateProjectStatus from './pages/projectDetail/projectStatuses/createPro
 import EditProjectStatus from './pages/projectDetail/projectStatuses/editProjectTask';
 import CreateProjectTag from './pages/projectDetail/projectTags/createProjectTag';
 import EditProjectTag from './pages/projectDetail/projectTags/editProjectTag';
+import CreateOrganization from './pages/organizations/createOrganization';
+import EditOrganization from './pages/organizations/editOrganization';
+import CreateOrganizationProject from './pages/organizationDetail/createOrganizationProject';
+import EditOrganizationProject from './pages/organizationDetail/editOrganizationProject';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +51,14 @@ const router = createBrowserRouter([
         path: '/organizations',
         element: <Organizations />,
       },
+      {
+        path: '/organizations/create',
+        element: <CreateOrganization />,
+      },
+      {
+        path: '/organizations/:organizationSlug/edit',
+        element: <EditOrganization />,
+      },
 
       {
         path: '/organizations/:organizationSlug',
@@ -55,6 +67,14 @@ const router = createBrowserRouter([
           {
             path: '/organizations/:organizationSlug/projects',
             element: <OrganizationProjects />,
+          },
+          {
+            path: '/organizations/:organizationSlug/projects/create',
+            element: <CreateOrganizationProject />,
+          },
+          {
+            path: '/organizations/:organizationSlug/projects/:projectSlug/edit',
+            element: <EditOrganizationProject />,
           },
           {
             path: '/organizations/:organizationSlug/users',

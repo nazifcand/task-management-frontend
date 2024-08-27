@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { fetchOrganizationBySlug } from '../../services/organizationService';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IProject } from '../../interfaces/IProject';
 import { IOrganization } from '../../interfaces/IOrganization';
 import { fetchProjects } from '../../services/projectService';
+import Button from '../../components/Button';
 
 const OrganizationProjects = () => {
+  const navigate = useNavigate();
+
   const { organizationSlug } = useParams<{ organizationSlug: string }>();
 
   const [organization, setOrganization] = useState<IOrganization | undefined>(
@@ -43,7 +46,16 @@ const OrganizationProjects = () => {
 
   return (
     <>
-      <div className="container grid grid-cols-4 gap-4">
+      <Button
+        className="ml-auto"
+        onClick={() =>
+          navigate(`/organizations/${organizationSlug}/projects/create`)
+        }
+      >
+        Create
+      </Button>
+
+      <div className="w-full grid grid-cols-4 gap-4">
         {projects.map((project: IProject, index) => (
           <Link
             className="flex flex-col gap-2 p-4 bg-white border border-slate-200"
@@ -58,6 +70,21 @@ const OrganizationProjects = () => {
             <p className="text-sm text-slate-500 italic">
               {project.description}
             </p>
+
+            <Button
+              color="orange"
+              size="xSmall"
+              className="mr-auto"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                navigate(
+                  `/organizations/${organizationSlug}/projects/${project.slug}/edit`
+                );
+              }}
+            >
+              Edit
+            </Button>
           </Link>
         ))}
       </div>
